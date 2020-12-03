@@ -1,0 +1,180 @@
+<html>
+<head>
+<title>Producer Details</title>
+</head>
+    <body>
+	 
+        <h1> Display Producer Details </h1>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
+    <script>	
+	
+	var account;
+	window.addEventListener('load', async () => {
+
+	
+		if (typeof window.ethereum !== 'undefined') { 
+			console.log("MetaMask is Available :) !"); 
+			}
+			
+		// Modern DApp browsers
+		if (window.ethereum) {
+			window.web3 = new Web3(ethereum);
+			
+			// To prevent the page reloading when the MetaMask network changes
+			ethereum.autoRefreshOnNetworkChange = false;
+			
+			// To Capture the account details from MetaMask
+			const accounts = await ethereum.enable();
+			account = accounts[0];
+				
+			}
+		// Legacy DApp browsers
+		else if (window.web3) {
+			//window.web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
+			}
+		// Non-DApp browsers
+		else {
+			console.log('Non-Ethereum browser detected. Please install MetaMask');
+			}
+			
+			});
+    	
+        var abi = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "producer_id",
+				"type": "uint256"
+			}
+		],
+		"name": "retreive_producer_details",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "producer_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_producer_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_producer_addr",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_producer_pno",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_product_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_product_quantity",
+				"type": "uint256"
+			}
+		],
+		"name": "store_producer_details",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+        var contractaddress = '0x3b03C972Aad6F9899a62De9d3b9888b7F163c46D';
+        
+      
+		function show_details() {
+            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
+            var idd = document.getElementById("tid").value;
+             var result = myContract.methods.retreive_producer_details(idd).call(function (err, result) {
+               
+                if (err) { console.log(err); }
+                if (result) { 
+                    document.getElementById("get_name").innerHTML = result[0];
+					document.getElementById("get_addr").innerHTML = result[1];
+					document.getElementById("get_spec").innerHTML = result[2];
+					document.getElementById("get_type").innerHTML = result[3];
+					document.getElementById("get_quan").innerHTML = result[4];
+                }
+               
+                });
+        }
+       
+        </script>
+
+        <h3>Producer Details:</h3>
+        <form>
+		<table style="width:25%">
+		  <tr>
+			<td>Enter Producer Id:</td>
+			<td><input type="text" id="tid" name="tid"></td>
+		  </tr>
+		  <tr><td><input type="button" onclick="show_details()" value="Get Details"></td></tr>
+            <tr>
+			<td> Producer Name:</td>
+			<td><div id="get_name"></div></td>
+		  </tr>
+		  <tr>
+			<td>Producer Address:</td>
+			<td><div id="get_addr"></div></td>
+		  </tr>
+		  <tr>
+			<td>Producer Phone number:</td>
+			<td><div id="get_spec"></div></td>
+		  </tr>
+		  <tr>
+			<td>Product Type:</td>
+			<td><div id="get_type"></div></td>
+		  </tr>
+		  <tr>
+			<td>Product Quantity:</td>
+			<td><div id="get_quan"></div></td>
+		  </tr>
+		</table>
+        </form>  
+    </body>
+</html>
