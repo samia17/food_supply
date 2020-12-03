@@ -1,10 +1,10 @@
 <html>
 <head>
-<title>Register wholesaler</title>
+<title>consumer Details</title>
 </head>
     <body>
-	
-        <h1>wholesalerRegistration </h1>
+	 
+        <h1> Display consumer Details </h1>
         <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
     <script>	
 	
@@ -16,7 +16,7 @@
 			console.log("MetaMask is Available :) !"); 
 			}
 			
-		// Modern DApp consumer
+		// Modern DApp browsers
 		if (window.ethereum) {
 			window.web3 = new Web3(ethereum);
 			
@@ -28,12 +28,12 @@
 			account = accounts[0];
 				
 			}
-		// Legacy DApp consumer
+		// Legacy DApp browsers
 		else if (window.web3) {
 			//window.web3 = new Web3(web3.currentProvider);
 			window.web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/cbd9dc11b30147e9a2cc974be655ef7c")); 
 			}
-		// Non-DApp consumer
+		// Non-DApp browsers
 		else {
 			console.log('Non-Ethereum browser detected. Please install MetaMask');
 			}
@@ -124,81 +124,59 @@
 		"type": "function"
 	}
 ]
-        var contractaddress = '0x11f8f4cC54A5C5fF32B022Eb402F5868Cb88EBfb';
+       
+
+var contractaddress = '0x11f8f4cC54A5C5fF32B022Eb402F5868Cb88EBfb';
         
-        function add_details() {
-            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
-			var ds1 = document.getElementById("addr").value;
-			var ds2 = document.getElementById("spec").value;
-			var ds3 = document.getElementById("type").value;
-			var ds4 = document.getElementById("quan").value;
-            var tname = document.getElementById("name1").value;
-            var id = document.getElementById("id1").value;
-             var result = myContract.methods.store_wholesaler_details(id,tname,ds1,ds2,ds3,ds4).send(function (err, result) {
-               
-                if (err) { console.log(err); }
-                if (result) { document.getElementById("result").innerHTML = result; }
-               
-                });
-        }
+      
 		function show_details() {
             var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
             var idd = document.getElementById("tid").value;
-             var result = myContract.methods.retreive_hospital_details(idd).call(function (err, result) {
+             var result = myContract.methods.retreive_consumer_details(idd).call(function (err, result) {
                
                 if (err) { console.log(err); }
                 if (result) { 
                     document.getElementById("get_name").innerHTML = result[0];
 					document.getElementById("get_addr").innerHTML = result[1];
 					document.getElementById("get_spec").innerHTML = result[2];
+					document.getElementById("get_type").innerHTML = result[3];
+					document.getElementById("get_quan").innerHTML = result[4];
                 }
                
                 });
         }
-        function del_details() {
-            var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
-            var bid = document.getElementById("bid1").value;
-             var result = myContract.methods.burnMyToken(bid).send(function (err, result) {
-               
-                if (err) { console.log(err); }
-                });
-        }
+       
         </script>
 
-       
-        <h2>Register wholesaler</h2>
-    <form>
-		<table style="width:25%"> 
+        <h3>consumer Details:</h3>
+        <form>
+		<table style="width:25%">
+		  <tr>
+			<td>Enter consumer Id:</td>
+			<td><input type="text" id="tid" name="tid"></td>
+		  </tr>
+		  <tr><td><input type="button" onclick="show_details()" value="Get Details"></td></tr>
             <tr>
-			<td>Enter wholesaler Id:</td>
-			<td><input type="text" id="id1" name="id1"></td>
-		  </tr>
-            <tr>
-			<td> wholesaler Name:</td>
-			<td><input type="text" id="name1" name="name1"></td>
-		  </tr>
-            <tr>
-			<td>wholesaler Address:</td>
-			<td><input type="text" id="addr" name="addr"></td>
-		  </tr>
-            <tr>
-			<td>wholesaler Phone number:</td>
-			<td><input type="text" id="spec" name="spec"></td>
-		  </tr>
-		   <tr>
-			<td>Product Type:</td>
-			<td><input type="text" id="type" name="type"></td>
-		  </tr>
-		   <tr>
-			<td>Product Quantity:</td>
-			<td><input type="text" id="quan" name="quan"></td>
+			<td> consumer Name:</td>
+			<td><div id="get_name"></div></td>
 		  </tr>
 		  <tr>
-		  <td><input type="button" onclick="add_details()" value="Register"></td>
+			<td>consumer Address:</td>
+			<td><div id="get_addr"></div></td>
+		  </tr>
+		  <tr>
+			<td>consumer Phone number:</td>
+			<td><div id="get_spec"></div></td>
+		  </tr>
+		  <tr>
+			<td>Product Type:</td>
+			<td><div id="get_type"></div></td>
+		  </tr>
+		  <tr>
+			<td>Product Quantity:</td>
+			<td><div id="get_quan"></div></td>
 		  </tr>
 		</table>
-		
-	</form>
-        <h3>To get details of a wholesaler <a href="wholesaler_details.html">Click Here</a></h3>
+        </form>  
     </body>
 </html>
